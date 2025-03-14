@@ -3,78 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Under Development</title>
+    <title>Novex | Dev Portfolio</title>
     <style>
-        body {
+        :root {
+            --bg-color: #1a1b26;
+            --text-color: #a9b1d6;
+            --accent-color: #7aa2f7;
+            --highlight-color: #24283b;
+            --terminal-color: #16161e;
+            --keyword-color: #bb9af7;
+            --string-color: #9ece6a;
+            --variable-color: #7dcfff;
+            --property-color: #73daca;
+            --number-color: #ff9e64;
+            --comment-color: #565f89;
+        }
+        
+        * {
             margin: 0;
             padding: 0;
-            background-color: #080808;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            height: 100vh;
+            box-sizing: border-box;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            padding: 20px 0;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-bottom: 1px solid var(--highlight-color);
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        
+        .typing-text {
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        .social-links {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            display: inline-flex;
             align-items: center;
-            overflow: hidden;
-            position: relative;
+            background-color: var(--highlight-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
-
-        .light-beam {
-            position: absolute;
-            top: -20%;
-            left: -20%;
-            width: 150%;
-            height: 150%;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.03) 0%,
-                rgba(255, 255, 255, 0.02) 30%,
-                rgba(255, 255, 255, 0) 60%);
-            transform: rotate(15deg);
-            pointer-events: none;
+        
+        .badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(122, 162, 247, 0.3);
         }
-
-        .container {
-            text-align: center;
-            z-index: 1;
+        
+        .badge img {
+            height: 16px;
+            margin-right: 8px;
         }
-
-        h1 {
+        
+        section {
+            margin: 50px 0;
+            border-bottom: 1px solid var(--highlight-color);
+            padding-bottom: 30px;
+        }
+        
+        section h2 {
             font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            margin: 0;
-            opacity: 0.9;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
         }
-
-        p {
-            font-size: 1rem;
-            margin: 1rem 0;
-            color: #666;
-            letter-spacing: 2px;
+        
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+            opacity: 0.5;
         }
-
-        .minimal-loader {
-            width: 30px;
-            height: 30px;
-            border: 2px solid #111;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            margin: 2rem auto;
-            animation: spin 1.5s linear infinite;
+        
+        blockquote {
+            border-left: 3px solid var(--accent-color);
+            padding: 15px 20px;
+            font-style: italic;
+            margin: 20px 0;
+            color: var(--text-color);
+            background-color: var(--highlight-color);
+            border-radius: 0 5px 5px 0;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        pre {
+            background-color: var(--terminal-color);
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--highlight-color);
+        }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .code-header {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 0.8rem;
+        }
+        
+        .keyword {
+            color: var(--keyword-color);
+        }
+        
+        .string {
+            color: var(--string-color);
+        }
+        
+        .variable {
+            color: var(--variable-color);
+        }
+        
+        .property {
+            color: var(--property-color);
+        }
+        
+        .number {
+            color: var(--number-color);
+        }
+        
+        .comment {
+            color: var(--comment-color);
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stats-card {
+            background-color: var(--terminal-color);
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--highlight-color);
+        }
+        
+        .stats-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+        }
+        
+        .language-bar {
+            height: 8px;
+            background-color: var(--accent-color);
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+        
+        .matrix-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--highlight-color);
+            border: none;
+            border-radius: 4px;
+            color: var(--text-color);
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--accent-color);
+            color: #16161e;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .typing-text {
+                font-size: 1rem;
+            }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="light-beam"></div>
+    <canvas id="matrixCanvas" class="matrix-effect"></canvas>
     <div class="container">
-        <div class="minimal-loader"></div>
-        <h1>WEBSITE UNDER DEVELOPMENT</h1>
-        <p>coming soon</p>
+        <header>
+            <h1>Dev Portfolio</h1>
+            <div class="typing-text">
+                Full Stack Developer | Open Source Contributor
+            </div>
+            <div class="social-links">
+                <a href="https://novex.one/" class="badge">
+                    <span>WEBSITE</span>
+                </a>
+                <a href="mailto:contact@novex.one" class="badge" style="background-color: #6D4AFF;">
+                    <span>PROTON MAIL</span>
+                </a>
+                <a href="https://tryhackme.com/p/novexone" class="badge" style="background-color: #212C42;">
+                    <span>TRYHACKME</span>
+                </a>
+            </div>
+            <div class="social-links" style="margin-top: 10px;">
+                <a href="https://github.com/novexone" class="badge" style="background-color: #181717;">
+                    <span>GITHUB</span>
+                </a>
+                <a href="https://codeberg.org/novexone" class="badge" style="background-color: #609926;">
+                    <span>CODEBERG</span>
+                </a>
+            </div>
+        </header>
+        
+        <section id="about">
+            <h2>About</h2>
+            <blockquote>
+                Building elegant solutions with a focus on performance, security, and privacy - because your data should remain yours
+            </blockquote>
+            <pre>
+<button class="copy-button" onclick="copyToClipboard('developer-code')">Copy</button>
+<code id="developer-code"><span class="keyword">const</span> <span class="variable">developer</span> = {
+    <span class="property">currentFocus</span>: <span class="string">'Full Stack Development'</span>,
+    <span class="property">interests</span>: [<span class="string">'System Design'</span>, <span class="string">'System Programming'</span>, <span class="string">'Open Source'</span>],
+    <span class="property">os</span>: <span class="string">'Arch Linux'</span>,
+    <span class="property">devEnv</span>: {
+        <span class="property">editor</span>: <span class="string">'Neovim'</span>,
+        <span class="property">terminal</span>: <span class="string">'Alacritty'</span>,
+        <span class="property">multiplexer</span>: <span class="string">'tmux'</span>
+    },
+    <span class="property">goals2025</span>: <span class="string">'Contribute to major open source projects'</span>
+};</code>
+            </pre>
+        </section>
+        
+        <section id="experience">
+            <h2>Experience</h2>
+            <pre>
+<button class="copy-button" onclick="copyToClipboard('experience-code')">Copy</button>
+<code id="experience-code"><span class="keyword">const</span> <span class="variable">techExperience</span> = {
+    <span class="string">'Python'</span>:     <span class="string">'████████████  4 years'</span>,
+    <span class="string">'JavaScript'</span>: <span class="string">'████░░░░░░░░  1 years'</span>,
+    <span class="string">'Rust'</span>:       <span class="string">'██░░░░░░░░░░  Learning'</span>,
+    <span class="string">'C'</span>:          <span class="string">'██░░░░░░░░░░  Learning'</span>
+};</code>
+            </pre>
+        </section>
+        
+        <section id="stats">
+            <h2>Stats</h2>
+            <div class="stats-container">
+                <div class="stats-card">
+                    <div class="stats-title">GitHub Stats</div>
+                    <div class="stats-item">
+                        <span>Total Stars Earned:</span>
+                        <span>0</span>
+                    </div>
+                    <div class="stats-item">
+                        <span>Total Commits (2025):</span>
+                        <span>24</span>
+                    </div>
+                    <div class="stats-item">
+                        <span>Total PRs:</span>
+                        <span>0</span>
+                    </div>
+                    <div class="stats-item">
+                        <span>Total Issues:</span>
+                        <span>0</span>
+                    </div>
+                    <div class="stats-item">
+                        <span>Contributed to (last year):</span>
+                        <span>0</span>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stats-title">Most Used Languages</div>
+                    <div class="stats-item">
+                        <span>HTML</span>
+                        <span>100.00%</span>
+                    </div>
+                    <div class="language-bar" style="width: 100%;"></div>
+                </div>
+            </div>
+        </section>
     </div>
+    
+    <footer>
+        <p>Let's build something amazing together.</p>
+        <p>© 2025 Novex</p>
+    </footer>
+    
+    <script>
+        // Matrix effect with blue/cyan color
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\[]{}|=+-_!@#$%^&*()';
+        const fontSize = 12;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * -canvas.height);
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(26, 27, 38, 0.02)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Using a blue-cyan color instead of green
+            ctx.fillStyle = '#8ab2ff';
+            ctx.font = `${fontSize}px 'JetBrains Mono'`;
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 80);
+        
+        // Copy code function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const copyButton = event.target;
+                const originalText = copyButton.textContent;
+                copyButton.textContent = 'Copied!';
+                
+                setTimeout(() => {
+                    copyButton.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
